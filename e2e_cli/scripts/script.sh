@@ -289,8 +289,6 @@ chaincodeInvoke () {
 	echo
 }
 
-chaincodeQuery 0 1 100
-exit
 
 # Check for orderering service availablility
 echo "Check orderering service availability..."
@@ -307,43 +305,16 @@ joinChannel
 # Set the anchor peers for each org in the channel
 echo "Updating anchor peers for org1..."
 updateAnchorPeers 0 1
-echo "Updating anchor peers for org2..."
-#updateAnchorPeers 0 2
 
-# Install chaincode on peer0.org1 and peer2.org2
 echo "Installing chaincode on peer0.org1..."
 installChaincode 0 1
-echo "Install chaincode on peer0.org2..."
-#installChaincode 0 2
 
 echo "Instantiating chaincode on peer0.org1..."
 instantiateChaincode 0 1
-#exit
-# Instantiate chaincode on peer0.org2
-echo "Instantiating chaincode on peer0.org2..."
-#instantiateChaincode 0 2
 
 # Query on chaincode on peer0.org1
 echo "Querying chaincode on peer0.org1..."
-#chaincodeQuery 0 1 100
-
-# Invoke on chaincode on peer0.org1 and peer0.org2
-echo "Sending invoke transaction on peer0.org1 and peer0.org2..."
-#chaincodeInvoke 0 1
-
-chaincodeQuery 0 1 90
-exit
-# Install chaincode on peer1.org2
-echo "Installing chaincode on peer1.org2..."
-installChaincode 1 2
-
-# Query on chaincode on peer1.org2, check if the result is 90
-echo "Querying chaincode on peer1.org2..."
-chaincodeQuery 1 2 90
-
-#Query on chaincode on peer1.org3 with idemix MSP type, check if the result is 90
-echo "Querying chaincode on peer1.org3..."
-chaincodeQuery 1 3 90
+chaincodeQuery 0 1 100
 
 echo
 echo "===================== All GOOD, End-2-End execution completed ===================== "
