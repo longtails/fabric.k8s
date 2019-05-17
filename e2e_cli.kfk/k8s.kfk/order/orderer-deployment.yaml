@@ -1,0 +1,82 @@
+---
+kind: Deployment
+apiVersion: extensions/v1beta1
+metadata:
+  name: orderer
+  namespace: ord
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: orderer 
+    spec:
+      nodeSelector:
+        type: hw2
+      containers:
+      hostname: orderer
+      #subdomain: ord
+
+      volumes:
+        - name: genesis  
+          hostPath:
+            path: /root/go/src/github.com/hyperledger/fabric/examples/e2e_cli/channel-artifacts/genesis.block
+            type: File
+        - name: msp
+          hostPath:
+            path: /root/go/src/github.com/hyperledger/fabric/examples/e2e_cli/crypto-config/ordererOrganizations/ord/orderers/orderer.ord/msp
+            type: Directory
+        - name: tls
+          hostPath:
+            path: /root/go/src/github.com/hyperledger/fabric/examples/e2e_cli/crypto-config/ordererOrganizations/ord/orderers/orderer.ord/tls
+            type: Directory
+      containers:
+      - name: orderer
+        image: hyperledger/fabric-orderer
+        imagePullPolicy: IfNotPresent
+        workingDir: /opt/gopath/src/github.com/hyperledger/fabric/
+        volumeMounts:
+        - name: genesis
+          readOnly: false
+          mountPath: /var/hyperledger/orderer/orderer.genesis.block
+        - name: msp
+          readOnly: false
+          mountPath: /var/hyperledger/orderer/msp
+        - name: tls
+          readOnly: false
+          mountPath: /var/hyperledger/orderer/tls
+        ports:
+        - containerPort: 7050
+        command: ['orderer']  
+        #command: ['sleep','100000']  
+        env:
+        - name: ORDERER_GENERAL_LOGLEVEL
+          value: debug
+        - name: ORDERER_GENERAL_LISTENADDRESS
+          value: 0.0.0.0
+        - name: ORDERER_GENERAL_GENESISMETHOD
+          value: file
+        - name: ORDERER_GENERAL_GENESISFILE
+          value: /var/hyperledger/orderer/orderer.genesis.block
+        - name: ORDERER_GENERAL_LOCALMSPID
+          value: OrdererMSP
+        - name: ORDERER_GENERAL_LOCALMSPDIR
+          value: /var/hyperledger/orderer/msp
+        - name: ORDERER_GENERAL_TLS_ENABLED
+         # value: 'false' 
+          value: 'true' 
+        - name: ORDERER_GENERAL_TLS_PRIVATEKEY
+          value: /var/hyperledger/orderer/tls/server.key
+        - name: ORDERER_GENERAL_TLS_CERTIFICATE
+          value: /var/hyperledger/orderer/tls/server.crt
+        - name: ORDERER_GENERAL_TLS_ROOTCAS
+          value: "[/var/hyperledger/orderer/tls/ca.crt]"
+        - name: ORDERER_KAFKA_RETRY_SHORTINTERVAL
+          value: 1s
+        - name: ORDERER_KAFKA_RETRY_SHORTTOTAL
+          value: 30s
+        - name: ORDERER_KAFKA_VERBOSE
+          value: 'true' 
+#        - name: GODEBUG
+#          value: netdns=go
+ 

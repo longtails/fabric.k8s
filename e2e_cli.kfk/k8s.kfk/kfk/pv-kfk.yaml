@@ -1,0 +1,50 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: datadir-kfk-1
+  labels:
+    type: local
+spec:
+  storageClassName: local-class
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data11"
+
+---
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: datadir-kfk-2
+  labels:
+    type: local
+spec:
+  storageClassName: local-class
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data22"
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: datadir-kfk-3
+  labels:
+    type: local
+spec:
+  storageClassName: local-class
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data33"
+
+
+

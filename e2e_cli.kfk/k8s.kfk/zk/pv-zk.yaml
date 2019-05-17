@@ -1,0 +1,50 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: datadir1
+  labels:
+    type: local
+spec:
+  storageClassName: local-class
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data1"
+
+---
+
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: datadir2
+  labels:
+    type: local
+spec:
+  storageClassName: local-class
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data2"
+
+---
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: datadir3
+  labels:
+    type: local
+spec:
+  storageClassName: local-class
+  capacity:
+    storage: 5Gi
+  accessModes:
+    - ReadWriteOnce
+  hostPath:
+    path: "/mnt/data3"
+
+
+
